@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Admin/Dashboard';
 import Scores from './pages/Admin/Scores';
 import Performance from './pages/Admin/Performance';
-import Course from './pages/Course';
+import Course from './pages/Admin/Course';
 import Login from './pages/Login';
 import { RequiredAuth } from './utils/RequiredAuth';
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -3,9 +3,10 @@ import Chart from 'react-apexcharts';
 
 const Piechart = ({ header, data }) => {
   // Chart options
-  const categories = data.map(training => training.Designation);
-  const pass_percentage = data.map(training => Number(training.Percentage));
-
+  const categories = data.map(data => data.categories);
+  const percentage = data.map(data => Number(data.series));
+  console.log(data);
+  
   const options = {
     chart: {
       type: 'pie', // Change to 'pie' for a pie chart
@@ -20,7 +21,7 @@ const Piechart = ({ header, data }) => {
   };
 
   // Data for the chart
-  const series = pass_percentage; // Values for each category
+  const series = percentage; // Values for each category
 
   return (
     <div className="chart-container">

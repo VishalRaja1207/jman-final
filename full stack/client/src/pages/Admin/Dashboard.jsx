@@ -179,7 +179,7 @@ const Dashboard = () => {
             </div>
             <div className="col-lg-6">
               <div className="card item-card custom-card">
-                <Piechart header="Scores by training" data={pieData}></Piechart>
+                <Piechart header="Scores by training" data={[{categories: "Retention", series: retentionData}, {categories: "No Retention", series: 100 - Number(retentionData)}]}></Piechart>
               </div>
             </div>
           </div>

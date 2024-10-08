@@ -3,6 +3,7 @@ const Performance = require("../models/Performance");
 const Training = require("../models/Training");
 const { Sequelize } = require("sequelize");
 const xlsx = require("xlsx");
+
 //get all training
 const getTraining = async (req, res) => {
   try {
@@ -73,14 +74,9 @@ const deleteTraining = async (req, res) => {
 
 //get scores based on training id and designation
 const getScores = async (req, res) => {
-  // console.log(req.query);
-
   const { training_id, designation } = req.query;
 
-  // const designationCondition = designation ? { designation } : {};
-
   try {
-    // Fetch the data based on the training name filter
     const results = await Performance.findAll({
       include: [
         {
@@ -242,12 +238,12 @@ const getDesignationScores = async (req, res) => {
     const results = await Performance.findAll({
       attributes: [
         // 'training_id',
-        [Sequelize.col("Employee.designation"), "Designation"],
+        [Sequelize.col("Employee.designation"), "categories"],
         [
           Sequelize.literal(
             "ROUND((SUM(score) / (COUNT(emp_id) * 100)) * 100)"
           ),
-          "Percentage",
+          "series",
         ],
       ],
       include: [
@@ -257,7 +253,7 @@ const getDesignationScores = async (req, res) => {
         },
       ],
       group: ["Employee.designation"],
-      order: [["Percentage", "DESC"]],
+      order: [["series", "DESC"]],
     });
 
     res.status(200).json(results);
