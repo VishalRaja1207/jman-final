@@ -13,9 +13,7 @@ const login = (req, res) => {
     }
     else {
         if(username !== '1' || password !== '123') {
-            if (username !== 'root' || password !== '123') {
-                return res.status(200).json({msg: 'Invalid credentials'});
-            }    
+            return res.status(404).json({msg: 'Invalid credentials'});
         }
         const token = jwt.sign({ id: username, role: "employee" }, process.env.JWT_SECRET, {
             expiresIn: '30d'

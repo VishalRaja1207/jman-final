@@ -44,6 +44,7 @@ const Employee = () => {
 
   return (
     <div className="container">
+      {/* Card section */}
       <div className="row mt-3">
         <div className="col text-end">
           <div className="card item-card custom-card w-auto">
@@ -55,6 +56,7 @@ const Employee = () => {
             </div>
             <div className="card-body">
               <div className="row">
+                {/* No of Courses */}
                 <div
                   className="col-md-4 custom-col text-center"
                   style={{ borderRight: "4px solid #19105B" }}
@@ -70,6 +72,8 @@ const Employee = () => {
                     </p>
                   </b>
                 </div>
+
+                {/* Pass */}
                 <div
                   className="col-md-4 custom-col text-center"
                   style={{ borderRight: "4px solid #FF6196" }}
@@ -85,6 +89,8 @@ const Employee = () => {
                     </p>
                   </b>
                 </div>
+
+                {/* Fail */}
                 <div
                   className="col-md-4 custom-col text-center"
                   style={{ borderRight: "4px solid #FF6196" }}
@@ -93,7 +99,7 @@ const Employee = () => {
                   <b>
                     <p>
                       <span>
-                        {card.total_courses_attended !== undefined
+                        {card.total_courses_attended !== undefined && card.total_courses_passed !== undefined
                           ? card.total_courses_attended - card.total_courses_passed
                           : "No data available"}
                       </span>
@@ -106,6 +112,7 @@ const Employee = () => {
         </div>
       </div>
 
+      {/* Pass Table Section */}
       <div className="row mt-3">
         <div className="col-md-6">
           <div className="card item-card custom-card">
@@ -136,11 +143,12 @@ const Employee = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-center">No data available</p>
+              <p className="text-center">No skills learned yet</p>
             )}
           </div>
         </div>
 
+        {/* Fail Table Section */}
         <div className="col-md-6">
           <div className="card item-card custom-card">
             <div className="card-header">
@@ -170,7 +178,7 @@ const Employee = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-center">No data available</p>
+              <p className="text-center">No courses failed yet</p>
             )}
           </div>
         </div>
