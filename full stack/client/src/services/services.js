@@ -30,6 +30,19 @@ export const getDashPieData = () => {
 }
 
 
+//training
+export const createTraining = (data) => {
+    return axiosInstance.post(`${url}/admin/training`, data)
+}
+
+export const updateTraining = (id, data) => {
+    return axiosInstance.put(`${url}/admin/training?id=${id}`, data)
+}
+
+export const deleteTraining = (id) => {
+    return axiosInstance.delete(`${url}/admin/training?id=${id}`)
+}
+
 //employee
 export const getEmployeeCard = () => {
     return axiosInstance.get(`${url}/employee`)

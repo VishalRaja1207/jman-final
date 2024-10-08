@@ -18,13 +18,14 @@ const {
     uploadScores,
     getRetention,
     getTrainingSuccessRate,
-    getOverallRetentionData
+    getOverallRetentionData,
+    createTraining
 } = require('../controllers/admin')
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.route("/scores").get(getScores).put(updateScore).delete(deleteScore)
-router.route("/training").get(getTraining).put(updateTraining).delete(deleteTraining)
+router.route("/training").get(getTraining).post(createTraining).put(updateTraining).delete(deleteTraining)
 router.route("/cummulative").get(getCumulativeScores)
 router.route('/training/scores').get(getTrainingScores)
 router.route('/employees').get(getEmployees)

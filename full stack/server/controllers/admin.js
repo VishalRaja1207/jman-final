@@ -4,6 +4,23 @@ const Training = require("../models/Training");
 const { Sequelize } = require("sequelize");
 const xlsx = require("xlsx");
 
+//create training
+const createTraining = async (req, res) => {
+  const {courseName, startDate, endDate} = req.body
+  try {
+    const newTraining = await Training.create({
+      name: courseName,
+      start_date: startDate,
+      end_date: endDate,
+    });
+
+    res.status(201).json({ message: 'Training created successfully', data: newTraining });
+  } catch (error) {
+    console.error('Error creating training:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+}
+
 //get all training
 const getTraining = async (req, res) => {
   try {
@@ -28,8 +45,9 @@ const getTraining = async (req, res) => {
 
 const updateTraining = async (req, res) => {
   const { id } = req.query; // Get the training id from URL parameters
-  const { name, end_date } = req.body; // Fields to update
-
+  const { name, start_date ,end_date } = req.body; // Fields to update
+  console.log(req.body);
+  
   try {
     const training = await Training.findByPk(id); // Find the training by id
 
@@ -40,6 +58,7 @@ const updateTraining = async (req, res) => {
     // Update the training details
     await training.update({
       name: name || training.name,
+      start_date: start_date || training.start_date,
       end_date: end_date || training.end_date,
     });
 
@@ -53,8 +72,8 @@ const updateTraining = async (req, res) => {
 };
 
 const deleteTraining = async (req, res) => {
-  const { id } = req.params; // Get the training id from URL parameters
-
+  const { id } = req.query; // Get the training id from URL parameters
+  
   try {
     const training = await Training.findByPk(id); // Find the training by id
 
@@ -499,6 +518,7 @@ const getTrainingSuccessRate = async (req, res) => {
 
 module.exports = {
   getScores,
+  createTraining,
   getTraining,
   updateTraining,
   deleteTraining,
