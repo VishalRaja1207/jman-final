@@ -28,7 +28,7 @@ const EmpSidebar = () => {
             </ul>
             <hr />
             <div class="mt-5 pb-4">
-                <button type="button" class="btn w-auto" style={{backgroundColor: "#FF6196", color: "White"}} onClick={(e) => handleLogOut(e)}>Logout</button>
+                <button type="button" class="btn w-auto" style={{color: "White"}} onClick={(e) => handleLogOut(e)}>Logout<i className="ms-5 bi bi-arrow-bar-right"></i></button>
             </div>
         </div>
     </div>

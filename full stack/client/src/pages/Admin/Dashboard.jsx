@@ -139,9 +139,9 @@ const Dashboard = () => {
           <div className="row mt-3">
             <div className="col-lg-6">
               <div className="card item-card custom-card">
-                <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
+                <div className="card-header">
                   <h6 style={{ textAlign: "center" }}>
-                    Training Cummulative Scores
+                    <b>Training Cummulative Scores</b>
                   </h6>
                 </div>
                 <Barchart header="" data={barData}></Barchart>
@@ -150,9 +150,9 @@ const Dashboard = () => {
             </div>
             <div className="col-lg-6">
               <div className="card item-card custom-card">
-                <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
+                <div className="card-header">
                   <h6 style={{ textAlign: "center" }}>
-                    Employee cummulative scores
+                    <b>Employee cummulative scores</b>
                   </h6>
                 </div>
                 <table className="table">
@@ -169,8 +169,8 @@ const Dashboard = () => {
                       <tr key={emp.id}>
                         <td>{emp.Name}</td>
                         <td>{emp.Designation}</td>
-                        <td style={{textAlign: "center"}}>{emp.Percentage}</td>
-                        <td style={{textAlign: "center"}}>{emp["Total Trainings"]}</td>
+                        <td>{emp.Percentage}</td>
+                        <td>{emp["Total Trainings"]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -181,9 +181,9 @@ const Dashboard = () => {
           <div className="row">
             <div className="col-lg-6 mt-3">
               <div className="card item-card custom-card">
-              <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
+              <div className="card-header">
                   <h6 style={{ textAlign: "center" }}>
-                    Designation Pass Percentage
+                    <b>Designation Pass Percentage</b>
                   </h6>
                 </div>
                 <Donutchart header="Scores by training" data={pieData}></Donutchart>
@@ -191,9 +191,9 @@ const Dashboard = () => {
             </div>
             <div className="col-lg-6 mt-3">
               <div className="card item-card custom-card">
-              <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
+              <div className="card-header">
                   <h6 style={{ textAlign: "center" }}>
-                    Employee Retention Percentage
+                    <b>Employee Retention Percentage</b>
                   </h6>
                 </div>
                 <Piechart header="Scores by training" data={[{categories: "Retention", series: retentionData}, {categories: "No Retention", series: 100 - Number(retentionData)}]}></Piechart>

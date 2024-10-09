@@ -90,6 +90,7 @@ const Login = () => {
                             className="form-check-input"
                             checked={role === "admin"}
                             onChange={(e) => setRole(e.target.value)}
+                            required
                           />
                           <label htmlFor="admin" className="form-check-label">Admin</label>
                         </div>
@@ -104,6 +105,7 @@ const Login = () => {
                             className="form-check-input"
                             checked={role === "employee"}
                             onChange={(e) => setRole(e.target.value)}
+                            required
                           />
                           <label htmlFor="employee" className="form-check-label">Employee</label>
                         </div>
