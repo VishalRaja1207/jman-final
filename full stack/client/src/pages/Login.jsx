@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 const Login = () => {
   const [mail, setMail] = useState("");
   const [pass, setPass] = useState("");
-  const [role, setRole] = useState("employee"); // Set default role as employee
+  const [role, setRole] = useState(""); // Set default role as employee
   const navigate = useNavigate();
 
   const loginUser = (e) => {

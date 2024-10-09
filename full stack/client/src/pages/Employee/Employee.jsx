@@ -120,7 +120,7 @@ const Employee = () => {
       <div className="row mt-3">
         <div className="col-md-6">
           <div className="card item-card custom-card">
-            <div className="card-header">
+            <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
               <h6 style={{ textAlign: "center" }}>
                 <b>Skills Learned</b>
               </h6>
@@ -155,7 +155,7 @@ const Employee = () => {
         {/* Fail Table Section */}
         <div className="col-md-6">
           <div className="card item-card custom-card">
-            <div className="card-header">
+            <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
               <h6 style={{ textAlign: "center" }}>
                 <b>Need to Improve</b>
               </h6>

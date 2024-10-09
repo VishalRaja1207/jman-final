@@ -4,7 +4,7 @@ const Training = require("../models/Training");
 const { Sequelize } = require("sequelize");
 const xlsx = require("xlsx");
 
-//create training
+//create training 
 const createTraining = async (req, res) => {
   const {courseName, startDate, endDate} = req.body
   try {
@@ -72,7 +72,7 @@ const updateTraining = async (req, res) => {
   }
 };
 
-//update training
+//delete training
 const deleteTraining = async (req, res) => {
   const { id } = req.query; // Get the training id from URL parameters
   
@@ -191,7 +191,7 @@ const getEmployees = async (req, res) => {
   }
 };
 
-//get cummulative scores
+//get cummulative scores of employee
 const getCumulativeScores = async (req, res) => {
   const { id } = req.query;
 
@@ -419,7 +419,7 @@ const getRetention = async (req, res) => {
         ],
         [
           Sequelize.literal(
-            "CASE WHEN (SUM(score) / (COUNT(training_id) * 100)) * 100 > 50 THEN 1 ELSE 0 END"
+            "CASE WHEN (SUM(score) / (COUNT(training_id) * 100)) * 100 >= 50 THEN 1 ELSE 0 END"
           ),
           "retention", // Determine retention based on score
         ],

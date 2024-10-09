@@ -223,7 +223,7 @@ const Scores = () => {
                         <td>{score.score}</td>
                         <td onClick={(e) => handleDeleteCard(e, score)}>
                           <i
-                            className="bi bi-trash3-fill ms-4"
+                            className="bi bi-trash3-fill"
                             style={{ cursor: "pointer", color: "rgb(255, 97, 150)" }}
                           ></i>
                         </td>

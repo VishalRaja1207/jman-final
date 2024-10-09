@@ -188,7 +188,7 @@ const Performance = () => {
 
       {/* Performance and Retention display */}
       <div className="row mt-5">
-        <div className="col text-end">
+        <div className="col text-end" > 
           <div className="card item-card custom-card w-auto">
             <div className="card-body">
               <div className="row">
@@ -198,7 +198,7 @@ const Performance = () => {
                 >
                   <p>Performance</p>
                   <b>
-                    <p>
+                    <p style={{fontSize: "1.5rem"}}>
                       <span>{performanceData}</span>
                     </p>
                   </b>
@@ -209,8 +209,8 @@ const Performance = () => {
                 >
                   <p>Retention</p>
                   <b>
-                    <p>
-                      <span>{retentionData}</span>
+                    <p style={{fontSize: "1.5rem"}}>
+                      <span>{retentionData ? "Yes" : "No"}</span>
                     </p>
                   </b>
                 </div>
@@ -218,6 +218,9 @@ const Performance = () => {
             </div>
           </div>
         </div>
+        {/* <div className='col'>
+          ksjdfhkj
+        </div> */}
       </div>
 
       {/* Bar chart and learning history table */}
