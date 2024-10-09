@@ -1,7 +1,7 @@
 import React from 'react';
 import Chart from 'react-apexcharts';
 
-const Barchart = ({header, data}) => {
+const Barchart = ({data}) => {
   // Chart options
   const categories = data.map(training => training.Name);
   const pass_percentage = data.map(training => Number(training.Percentage))
@@ -22,16 +22,15 @@ const Barchart = ({header, data}) => {
       enabled: true,
     },
     xaxis: {
+      title: {
+        text: 'Trainings'
+      },
       categories: categories, // X-axis categories
     },
     yaxis: {
       title: {
         text: 'Values', // Y-axis title
       },
-    },
-    title: {
-      text: 'My Bar Chart', // Chart title
-      align: 'center',
     },
     colors: ['#19105B']
   };

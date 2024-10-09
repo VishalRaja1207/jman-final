@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React from 'react'
 import { useState, useEffect } from "react";
-import Piechart from '../../charts/Piechart';
 import Barchart from '../../charts/Barchart';
 import Gaugechart from '../../charts/Gaugechart';
+import { getEmplyeesByDesignation } from '../../services/services';
 
 const Performance = () => {
   const [barData, setBarData] = useState([]);
@@ -52,7 +52,7 @@ const Performance = () => {
   // Fetch employees based on the selected designation
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/employees?designation=${selectedDesignation}`);
+      const response = await getEmplyeesByDesignation(selectedDesignation);
       const data = response.data;
       setEmployees(data);
       setSelectedEmployee(data[0]?.id || null); // Set the first employee as default or null if no employees
@@ -64,7 +64,11 @@ const Performance = () => {
   // Fetch performance data for the selected employee
   const fetchPerformanceData = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/cummulative?id=${id}`);
+      const response = await axios.get(`http://localhost:5000/api/v1/admin/cummulative?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       const data = response.data;
       setPerformanceData(data[0]?.Percentage || "N/A");
     } catch (error) {
@@ -75,7 +79,11 @@ const Performance = () => {
   // Fetch table data (learning history) for the selected employee
   const fetchTableData = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/history?id=${id}`);
+      const response = await axios.get(`http://localhost:5000/api/v1/admin/history?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       const data = response.data;
       setTableData(data);
     } catch (error) {
@@ -86,7 +94,11 @@ const Performance = () => {
   // Fetch retention data for the selected employee
   const fetchRetentionData = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/retention?empId=${id}`);
+      const response = await axios.get(`http://localhost:5000/api/v1/admin/retention?empId=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       const data = response.data;
       setRetentionData(data[0].retention);
     } catch (error) {
@@ -97,7 +109,11 @@ const Performance = () => {
   // Fetch bar chart data (scores by training) for the selected employee
   const fetchPieData = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/training-emp-scores?id=${id}`);
+      const response = await axios.get(`http://localhost:5000/api/v1/admin/training-emp-scores?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       const data = response.data;
       setBarData(data);
     } catch (error) {
@@ -107,7 +123,11 @@ const Performance = () => {
 
   const fetchGaugeData = async(id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/admin/successrate?id=${id}`);
+      const response = await axios.get(`http://localhost:5000/api/v1/admin/successrate?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       const data = response.data;
       setGaugeData(data.cumulative_success_rate)
       
@@ -167,26 +187,32 @@ const Performance = () => {
       </div>
 
       {/* Performance and Retention display */}
-      <div className='row mt-5'>
-        <div className='col'>
+      <div className="row mt-5">
+        <div className="col text-end">
           <div className="card item-card custom-card w-auto">
             <div className="card-body">
               <div className="row">
-                <div className="col-md-4 custom-col text-center" style={{ borderRight: '4px solid #FF6196' }}>
+                <div
+                  className="col-md-6 custom-col text-center"
+                  style={{ borderRight: "4px solid #19105B" }}
+                >
                   <p>Performance</p>
-                  <p><span>{performanceData}</span></p>
+                  <b>
+                    <p>
+                      <span>{performanceData}</span>
+                    </p>
+                  </b>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='col'>
-          <div className="card item-card custom-card w-auto">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-4 custom-col text-center" style={{ borderRight: '4px solid #FF6196' }}>
+                <div
+                  className="col-md-6 custom-col text-center"
+                  style={{ borderRight: "4px solid #FF6196" }}
+                >
                   <p>Retention</p>
-                  <p><span>{retentionData}</span></p>
+                  <b>
+                    <p>
+                      <span>{retentionData}</span>
+                    </p>
+                  </b>
                 </div>
               </div>
             </div>

@@ -1,11 +1,13 @@
 import React from 'react';
 import "../styles/sidebar.css"
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Sidebar = () => {
     const navigate = useNavigate();
     const handleLogOut = (e) => {
         localStorage.removeItem("token");
+        toast.success("Logged out")
         navigate("/")
     }
   return (
@@ -29,7 +31,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                     <a href="/add/course" class="nav-link px-0 align-middle">
-                        <i class="fs-3 bi bi-speedometer"></i> <span class="fs-5 ms-1 d-none d-sm-inline">Add Course</span></a>
+                       <i class="fs-3 bi bi-book"></i> <span class="fs-5 ms-1 d-none d-sm-inline">Add Course</span></a>
                 </li>
             </ul>
             <hr />

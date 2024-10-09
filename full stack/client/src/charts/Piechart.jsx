@@ -14,7 +14,7 @@ const Piechart = ({ header, data }) => {
     },
     labels: categories, // Labels for pie slices
     title: {
-      text: header, // Chart title
+      // text: header, // Chart title
       align: 'center',
     },
     colors: ['#19105B', '#FF6196', '#71EAE1', '#3411A3', '#A16BDB', '#A6265E', '#16978E'], // Custom colors for slices

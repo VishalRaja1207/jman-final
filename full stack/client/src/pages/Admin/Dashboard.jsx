@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Barchart from "../../charts/Barchart";
 import Piechart from "../../charts/Piechart";
-import axios from "axios";
-import { Pagination } from "react-bootstrap";
+
 import {
   getDashBarData,
   getDashPieData,
   getDashTableData,
   getRetentionData,
+  getEmployeeCount
 } from "../../services/services";
+import Donutchart from "../../charts/Donutchart";
 
 const Dashboard = () => {
   const [tableData, setTableData] = useState([]);
@@ -16,15 +17,15 @@ const Dashboard = () => {
   const [pieData, setPieData] = useState([]);
   const [topPerformer, setTopPerformer] = useState("");
   const [topCourse, setTopCourse] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage] = useState(6); // Rows per page can be set here
   const [retentionData, setRetentionData] = useState("");
+  const [employeeCount, setEmployeeCount] = useState("");
 
   useEffect(() => {
     fetchTableData();
     fetchBarData();
     fetchPieData();
     fetchRetentionData();
+    fetchEmployeeCount();
   }, []);
 
   const fetchTableData = async () => {
@@ -69,16 +70,17 @@ const Dashboard = () => {
     }
   };
 
-  // Get the current rows
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = tableData.slice(indexOfFirstRow, indexOfLastRow);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Number of total pages
-  const totalPages = Math.ceil(tableData.length / rowsPerPage);
+  const fetchEmployeeCount = async () => {
+    try {
+      const response = await getEmployeeCount();
+      const data = response.data["count"]
+      console.log(data);
+      setEmployeeCount(data);
+      
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <div className="container">
@@ -119,10 +121,10 @@ const Dashboard = () => {
                   className="col-md-4 custom-col text-center"
                   style={{ borderRight: "4px solid #71EAE1" }}
                 >
-                  <p>Rentention</p>
+                  <p>Employees</p>
                   <b>
                     <p>
-                      <span>{retentionData}%</span>
+                      <span>{employeeCount}</span>
                     </p>
                   </b>
                 </div>
@@ -137,11 +139,16 @@ const Dashboard = () => {
           <div className="row mt-3">
             <div className="col-lg-6">
               <div className="card item-card custom-card">
+                <div className="card-header">
+                  <h6 style={{ textAlign: "center" }}>
+                    <b>Training Cummulative Scores</b>
+                  </h6>
+                </div>
                 <Barchart header="" data={barData}></Barchart>
               </div>
               <div className=""></div>
             </div>
-            <div className="col-lg-6 mt-3">
+            <div className="col-lg-6">
               <div className="card item-card custom-card">
                 <div className="card-header">
                   <h6 style={{ textAlign: "center" }}>
@@ -158,7 +165,7 @@ const Dashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentRows.map((emp) => (
+                    {tableData.map((emp) => (
                       <tr key={emp.id}>
                         <td>{emp.Name}</td>
                         <td>{emp.Designation}</td>
@@ -171,14 +178,24 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="row mt-3">
-            <div className="col-lg-6">
+          <div className="row">
+            <div className="col-lg-6 mt-3">
               <div className="card item-card custom-card">
-                <Piechart header="Scores by training" data={pieData}></Piechart>
+              <div className="card-header">
+                  <h6 style={{ textAlign: "center" }}>
+                    <b>Designation Pass Percentage</b>
+                  </h6>
+                </div>
+                <Donutchart header="Scores by training" data={pieData}></Donutchart>
               </div>
             </div>
-            <div className="col-lg-6">
+            <div className="col-lg-6 mt-3">
               <div className="card item-card custom-card">
+              <div className="card-header">
+                  <h6 style={{ textAlign: "center" }}>
+                    <b>Employee Retention Percentage</b>
+                  </h6>
+                </div>
                 <Piechart header="Scores by training" data={[{categories: "Retention", series: retentionData}, {categories: "No Retention", series: 100 - Number(retentionData)}]}></Piechart>
               </div>
             </div>

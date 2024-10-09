@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { deletePerformanceScores, getScores, getTraining } from "../../services/services";
+import toast from "react-hot-toast";
 
 const Scores = () => {
   const [designations, setDesignations] = useState([]);
   const [trainingNames, setTrainingNames] = useState([]);
   const [selectedDesignation, setSelectedDesignation] = useState("Software Engineer");
+  const [deleteData, setDeleteData] = useState({});
+  const [deleteCard, setDeleteCard] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(1);
   const [scores, setScores] = useState([]);
   const [file, setFile] = useState(null);
@@ -71,12 +74,21 @@ const Scores = () => {
     setFile(e.target.files[0]);
   };
 
+  const handleDeleteCard = async (e, data) => {
+    e.preventDefault();
+    const body_data = { emp_id: data["Employee"].id, training_id: data["Training"].id, score: data["score"] };
+    setDeleteData(body_data)
+    setDeleteCard(true);
+  };
+
   // Handle delete action
-  const handleActionDelete = async (e, data) => {
+  const handleActionDelete = async (e) => {
     e.preventDefault();
     try {
-      const body_data = { emp_id: data["Employee"].id, training_id: data["Training"].id, score: data["score"] };
+      const body_data = deleteData; 
       await deletePerformanceScores(body_data["emp_id"], body_data["training_id"])
+      setDeleteData({})
+      setDeleteCard(false);
       fetchScores(selectedDesignation, selectedTraining); // Refresh scores after deletion
     } catch (error) {
       console.log(error);
@@ -96,21 +108,23 @@ const Scores = () => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('training_name', selectedTraining);
-  
+    
     try {
       const response = await axios.post(`http://localhost:5000/api/v1/admin/upload/score?id=${selectedTraining}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         },
       });
       console.log(response.data);
-      alert('File uploaded successfully!');
+      toast.success('File uploaded successfully!');
       setFile(null); // Reset file state
       fileInputRef.current.value = ''; // Clear file input in UI
       fetchScores(selectedDesignation, selectedTraining); // Fetch scores after uploading
+
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Error uploading file');
+      toast.error('Error uploading file');
     }
   };
 
@@ -183,39 +197,90 @@ const Scores = () => {
           </div>
         </div>
         <div className="row mt-5">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Training Start Date</th>
-                <th>Training End Date</th>
-                <th>Score</th>
-                <th>Delete test</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scores.length > 0 ? (
-                scores.map((score, index) => (
-                  <tr key={index}>
-                    <td>{score.Employee.name}</td>
-                    <td>{new Date(score.Training.start_date).toLocaleDateString()}</td>
-                    <td>{new Date(score.Training.end_date).toLocaleDateString()}</td>
-                    <td>{score.score}</td>
-                    <td>
-                      <i className="bi bi-trash3-fill" style={{ cursor: "pointer" }} onClick={(e) => handleActionDelete(e, score)}></i>
-                    </td>
+          <div className="card item-card custom-card">
+            <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}} >
+              <h6 style={{ textAlign: "center" }}>
+                <b>Training courses</b>
+              </h6>
+            </div>
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Training Start Date</th>
+                    <th>Training End Date</th>
+                    <th>Score</th>
+                    <th>Delete test</th>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="text-center">No scores available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {scores.length > 0 ? (
+                    scores.map((score, index) => (
+                      <tr key={index}>
+                        <td>{score.Employee.name}</td>
+                        <td>{new Date(score.Training.start_date).toLocaleDateString()}</td>
+                        <td>{new Date(score.Training.end_date).toLocaleDateString()}</td>
+                        <td>{score.score}</td>
+                        <td onClick={(e) => handleDeleteCard(e, score)}>
+                          <i
+                            className="bi bi-trash3-fill ms-4"
+                            style={{ cursor: "pointer", color: "rgb(255, 97, 150)" }}
+                          ></i>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">No scores available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+          </div>
         </div>
       </div>
-      <div className="mb-3"></div>
+      {deleteCard && (
+        <div className="custom-popup-card-overlay">
+          <div className="card custom-popup-card">
+            {/* <div className="card-header d-flex justify-content-between align-items-center"> */}
+            <h5 className="mb-0 text-center">Are you sure?</h5>
+            {/* </div> */}
+
+            <br />
+            <div className="row">
+              <div className="col-md-6">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100"
+                  style={{
+                    backgroundColor: "#19105B",
+                    border: "#19105B 1px solid",
+                  }}
+                  onClick={(e) => handleActionDelete(e)}
+                >
+                  Yes
+                </button>
+              </div>
+              <div className="col-md-6">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100"
+                  style={{
+                    backgroundColor: "#FF6196",
+                    border: "#FF6196 1px solid",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDeleteCard(false);
+                  }}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

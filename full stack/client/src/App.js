@@ -12,6 +12,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Employee from './pages/Employee/Employee';
 import EmpSidebar from './components/EmpSidebar';
 import Feedback from './pages/Employee/Feedback';
+import  { Toaster } from 'react-hot-toast';
 
 function Layout() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/add/course" element={<RequiredAuth role = "admin"><Course /></RequiredAuth>} />
         </Route>
       </Routes>
+      <Toaster position='top-center'/>
     </BrowserRouter>
   );
 }

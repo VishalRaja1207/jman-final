@@ -1,9 +1,10 @@
 import React from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import "../../styles/sidebar.css";
-import { createTraining, deleteTraining, updateTraining } from "../../services/services";
+import { createTraining, deleteTraining, getTraining, updateTraining } from "../../services/services";
+import toast from "react-hot-toast";
+import "../../styles/page.css"
 
 const Course = () => {
   const [tableData, setTableData] = useState([]);
@@ -39,6 +40,10 @@ const Course = () => {
       const data = { courseName, startDate, endDate };
       console.log(data);
       await createTraining(data);
+      toast.success("Course added")
+      setCourseName("")
+      setStartDate("")
+      setEndDate("")
       fetchTableData();
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -47,9 +52,7 @@ const Course = () => {
 
   const fetchTableData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v1/admin/training"
-      );
+      const response = await getTraining()
       const data = response.data;
       setTableData(data);
     } catch (error) {
@@ -87,9 +90,11 @@ const Course = () => {
       setUpdateName("");
       setUpdateStart("");
       setUpdateEnd("");
+      toast.success("Updated Successfully")
       setUpdateCard(false);
       fetchTableData();
     } catch (error) {
+      toast.error("Error while updating")
       console.log(error);
     }
   };
@@ -101,8 +106,10 @@ const Course = () => {
       
       await deleteTraining(updateId)
       setDeleteCard(false);
+      toast.success("Deleted Successfully")
       fetchTableData();
     } catch (error) {
+      toast.error("Error while deleting")
       console.log(error);
     }
   };
@@ -166,7 +173,7 @@ const Course = () => {
       <div className="row mt-5">
         <div className="col">
           <div className="card item-card custom-card">
-            <div className="card-header">
+            <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}} >
               <h6 style={{ textAlign: "center" }}>
                 <b>Training courses</b>
               </h6>
@@ -174,7 +181,7 @@ const Course = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th >Name</th>
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>Edit</th>
@@ -189,14 +196,14 @@ const Course = () => {
                     <td>{data.end_date}</td>
                     <td onClick={(e) => handleUpdateCard(e, data)}>
                       <i
-                        class="bi bi-pencil-fill"
-                        style={{ cursor: "pointer" }}
+                        class="bi bi-pencil-fill ms-1"
+                        style={{ cursor: "pointer", color: "#19105B" }}
                       ></i>
                     </td>
                     <td onClick={(e) => handleDeleteCard(e, data)}>
                       <i
-                        className="bi bi-trash3-fill"
-                        style={{ cursor: "pointer" }}
+                        className="bi bi-trash3-fill ms-3"
+                        style={{ cursor: "pointer", color: "rgb(255, 97, 150)" }}
                       ></i>
                     </td>
                   </tr>
@@ -204,33 +211,35 @@ const Course = () => {
               </tbody>
             </table>
             {/* Pagination */}
-            <Pagination className="ms-5">
-              <Pagination.First
-                onClick={() => paginate(1)}
-                disabled={currentPage === 1}
-              />
-              <Pagination.Prev
-                onClick={() => paginate(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-              {Array.from({ length: totalPages }, (_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  onClick={() => paginate(index + 1)}
-                  active={index + 1 === currentPage}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() => paginate(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-              <Pagination.Last
-                onClick={() => paginate(totalPages)}
-                disabled={currentPage === totalPages}
-              />
-            </Pagination>
+            <div className="pagination-container">
+              <Pagination className="custom-pagination">
+                <Pagination.First
+                  onClick={() => paginate(1)}
+                  disabled={currentPage === 1}
+                />
+                <Pagination.Prev
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    onClick={() => paginate(index + 1)}
+                    active={index + 1 === currentPage}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last
+                  onClick={() => paginate(totalPages)}
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
           </div>
         </div>
       </div>

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getFeedbackTableData, updateFeedback } from "../../services/services";
 import { Pagination } from "react-bootstrap";
 import "../../styles/sidebar.css";
-import { Card } from "react-bootstrap";
-import { Button } from "bootstrap/dist/js/bootstrap.bundle.min";
+import toast from "react-hot-toast";
+import "../../styles/page.css"
 
 const Feedback = () => {
   const [tableData, setTableData] = useState([]);
@@ -51,8 +51,10 @@ const Feedback = () => {
         setSelectedOptionsFeedback4(0);
         setAddCard(false);
         setTrainId(0)
-        setTrainName('')
+        setTrainName('')  
+        toast.success("Submitted Successfully")
     } catch (error) {
+        toast.error("Error while submitting")
         console.log(error);
     }    
     // You can now calculate the average score or perform other actions here
@@ -108,11 +110,11 @@ const Feedback = () => {
                   <td>{data.Training.start_date}</td>
                   <td>{data.Training.end_date}</td>
                   <td>{data.status}</td>
-                  <td>{data.trainer_Feedback}</td>
+                  <td>{data.trainer_feedback}</td>
                   <td>
                     <i
-                      className="fs-5 bi bi-plus-circle"
-                      style={{ cursor: "pointer", }}
+                      className="fs-5 bi bi-plus-circle ms-5"
+                      style={{ cursor: "pointer", color: "#19105B"}}
                       onClick={(e) => handleAddFeedback(e, data)}
                     ></i>
                   </td>
@@ -121,34 +123,35 @@ const Feedback = () => {
             </tbody>
           </table>
 
-          {/* Pagination */}
-          <Pagination className="ms-5">
-            <Pagination.First
-              onClick={() => paginate(1)}
-              disabled={currentPage === 1}
-            />
-            <Pagination.Prev
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            />
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                onClick={() => paginate(index + 1)}
-                active={index + 1 === currentPage}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            />
-            <Pagination.Last
-              onClick={() => paginate(totalPages)}
-              disabled={currentPage === totalPages}
-            />
-          </Pagination>
+          <div className="pagination-container">
+              <Pagination className="custom-pagination">
+                <Pagination.First
+                  onClick={() => paginate(1)}
+                  disabled={currentPage === 1}
+                />
+                <Pagination.Prev
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    onClick={() => paginate(index + 1)}
+                    active={index + 1 === currentPage}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last
+                  onClick={() => paginate(totalPages)}
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            </div>
         </div>
         {addCard && trainId !== 0 && trainName !== '' && (
           <div className="custom-popup-card-overlay">

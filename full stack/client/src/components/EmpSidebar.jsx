@@ -1,11 +1,13 @@
 import React from 'react';
 import "../styles/sidebar.css"
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const EmpSidebar = () => {
     const navigate = useNavigate();
     const handleLogOut = (e) => {
         localStorage.removeItem("token");
+        toast.success("Logged out")
         navigate("/")
     }
   return (

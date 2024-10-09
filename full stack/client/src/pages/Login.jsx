@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [mail, setMail] = useState("");
@@ -21,13 +22,16 @@ const Login = () => {
       if(role === 'admin'){
         localStorage.setItem("role", "admin")
         navigate("/dashboard");
+        toast.success("Logged in successfuly");
       }
       else {
         localStorage.setItem("role", "employee")
         navigate("/employee");
+        toast.success("Logged in successfuly");
       }
     }).catch((e) => {
       navigate("/");
+      toast.error("Invalid credentials")
       console.log(e);
     })
   }
@@ -47,14 +51,14 @@ const Login = () => {
             <div className="container p-4">
               <form onSubmit={loginUser} className="row">
                 <h2 className="mt-4 text-center">Sign in to your account</h2>
-                <div className="mb-3">
-                  <label htmlFor="email-address" className="form-label">Email address</label>
+                <div className="mb-3 mt-3">
+                  <label htmlFor="email-address" className="form-label">Username</label>
                   <input
                     type="text"
                     id="email-address"
                     name="email"
                     className="form-control"
-                    placeholder="Email address"
+                    placeholder="Username"
                     value={mail}
                     onChange={(e) => setMail(e.target.value)}
                     required
@@ -74,47 +78,40 @@ const Login = () => {
                   />
                 </div>
                 {/* Role selection tabs */}
-                <div className="mb-3">
-                  <label htmlFor="role" className="form-label">Login as</label>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      id="employee"
-                      name="role"
-                      value="employee"
-                      className="form-check-input"
-                      checked={role === "employee"}
-                      onChange={(e) => setRole(e.target.value)}
-                    />
-                    <label htmlFor="employee" className="form-check-label">Employee</label>
+                <div className="mb-3 ms-5">
+                  <div className='row'>
+                      <div className='col-sm-6'>
+                        <div className="form-check">
+                          <input
+                            type="radio"
+                            id="admin"
+                            name="role"
+                            value="admin"
+                            className="form-check-input"
+                            checked={role === "admin"}
+                            onChange={(e) => setRole(e.target.value)}
+                          />
+                          <label htmlFor="admin" className="form-check-label">Admin</label>
+                        </div>
+                      </div>
+                      <div className='col-sm-6'>
+                        <div className="form-check">
+                          <input
+                            type="radio"
+                            id="employee"
+                            name="role"
+                            value="employee"
+                            className="form-check-input"
+                            checked={role === "employee"}
+                            onChange={(e) => setRole(e.target.value)}
+                          />
+                          <label htmlFor="employee" className="form-check-label">Employee</label>
+                        </div>
+                      </div>
                   </div>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      id="admin"
-                      name="role"
-                      value="admin"
-                      className="form-check-input"
-                      checked={role === "admin"}
-                      onChange={(e) => setRole(e.target.value)}
-                    />
-                    <label htmlFor="admin" className="form-check-label">Admin</label>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <div className="form-check">
-                    <input
-                      type="checkbox"
-                      id="remember-me"
-                      name="remember-me"
-                      className="form-check-input"
-                    />
-                    <label htmlFor="remember-me" className="form-check-label">Remember me</label>
-                  </div>
-                  <span className="text-primary">Forgot your password?</span>
                 </div>
                 <div>
-                  <button type="submit" className="btn w-100 btn-primary">
+                  <button type="submit" className="btn w-100 btn-primary" style={{backgroundColor: "#19105B", color: "#fff"}}>
                     Sign in
                   </button>
                 </div>
