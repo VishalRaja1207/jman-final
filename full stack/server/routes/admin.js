@@ -19,11 +19,13 @@ const {
     getRetention,
     getTrainingSuccessRate,
     getOverallRetentionData,
-    createTraining
+    createTraining,
+    getNoOfEmployees
 } = require('../controllers/admin')
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+router.route("/employee").get(getNoOfEmployees)
 router.route("/scores").get(getScores).put(updateScore).delete(deleteScore)
 router.route("/training").get(getTraining).post(createTraining).put(updateTraining).delete(deleteTraining)
 router.route("/cummulative").get(getCumulativeScores)
@@ -36,4 +38,5 @@ router.route('/upload/score').post(upload.single('file'), uploadScores)
 router.route('/training-emp-scores').get(getTrainingScoresByEmp)
 router.route('/designation/scores').get(getDesignationScores);
 router.route('/successrate').get(getTrainingSuccessRate);
+
 module.exports = router;

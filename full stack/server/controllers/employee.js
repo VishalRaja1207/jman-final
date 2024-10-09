@@ -36,8 +36,14 @@ const getPassedTrainings = async (req, res) => {
             attributes: [
                 'emp_id',
                 [Sequelize.col('Training.name'), 'Training Name'],
-                [Sequelize.col('Training.start_date'), 'Training Start Date'],
-                [Sequelize.col('Training.end_date'), 'Training End Date'],
+                [
+                    Sequelize.fn("date", Sequelize.col("Training.start_date")),
+                    "start_date",
+                ],
+                [
+                    Sequelize.fn("date", Sequelize.col("Training.end_date")),
+                    "end_date",
+                ],
                 'score'
             ],
             include: [
@@ -68,8 +74,14 @@ const getFailedTrainings = async (req, res) => {
             attributes: [
                 'emp_id',
                 [Sequelize.col('Training.name'), 'Training Name'],
-                [Sequelize.col('Training.start_date'), 'Training Start Date'],
-                [Sequelize.col('Training.end_date'), 'Training End Date'],
+                [
+                    Sequelize.fn("date", Sequelize.col("Training.start_date")),
+                    "start_date",
+                ],
+                [
+                    Sequelize.fn("date", Sequelize.col("Training.end_date")),
+                    "end_date",
+                ],
                 'score'
             ],
             include: [
@@ -103,7 +115,18 @@ const getTrainerFeedback = async (req, res) => {
             include: [
                 {
                     model: Training,
-                    attributes: ['id', 'name', 'start_date', 'end_date'],
+                    attributes: [
+                        'id', 
+                        'name', 
+                        [
+                            Sequelize.fn("date", Sequelize.col("Training.start_date")),
+                            "start_date",
+                        ],
+                        [
+                            Sequelize.fn("date", Sequelize.col("Training.end_date")),
+                            "end_date",
+                        ],
+                    ],
                 },
                 {
                     model: Employee,
@@ -112,7 +135,7 @@ const getTrainerFeedback = async (req, res) => {
                 },
             ],
             attributes: [
-                'trainer_Feedback',
+                'trainer_feedback',
                 // Using Sequelize.fn for CASE statement correctly
                 [
                     Sequelize.literal(`CASE WHEN score >= 50 THEN 'Pass' ELSE 'Fail' END`),

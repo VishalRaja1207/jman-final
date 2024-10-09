@@ -43,6 +43,7 @@ const getTraining = async (req, res) => {
   }
 };
 
+//update training
 const updateTraining = async (req, res) => {
   const { id } = req.query; // Get the training id from URL parameters
   const { name, start_date ,end_date } = req.body; // Fields to update
@@ -71,6 +72,7 @@ const updateTraining = async (req, res) => {
   }
 };
 
+//update training
 const deleteTraining = async (req, res) => {
   const { id } = req.query; // Get the training id from URL parameters
   
@@ -128,6 +130,7 @@ const getScores = async (req, res) => {
   }
 };
 
+//delete score
 const deleteScore = async (req, res) => {
   const { emp_id, training_id } = req.query;
   try {
@@ -155,6 +158,7 @@ const deleteScore = async (req, res) => {
   }
 };
 
+//update score
 const updateScore = async (req, res) => {
   const { emp_id, training_id } = req.body;
 
@@ -212,8 +216,8 @@ const getCumulativeScores = async (req, res) => {
       ],
       where: whereCondition,
       group: ["emp_id", "Employee.name", "Employee.designation"],
-      order: [["Percentage", "ASC"]],
-      // limit: 5
+      order: [["Percentage", "DESC"]],
+      limit: 7
     });
 
     res.status(200).json(results);
@@ -252,6 +256,7 @@ const getTrainingScores = async (req, res) => {
   }
 };
 
+//get designation scores
 const getDesignationScores = async (req, res) => {
   try {
     const results = await Performance.findAll({
@@ -281,6 +286,7 @@ const getDesignationScores = async (req, res) => {
   }
 };
 
+//get training scores by employee
 const getTrainingScoresByEmp = async (req, res) => {
   const { id } = req.query;
   try {
@@ -430,6 +436,16 @@ const getRetention = async (req, res) => {
   }
 };
 
+const getNoOfEmployees = async (req, res) => {
+  try {
+    const employeeCount = await Employee.count();
+    return res.status(200).json({ count: employeeCount });
+  } catch (error) {
+    console.error("Error fetching employee count:", error);
+    res.status(500).json({ message: "Error fetching employee count" });
+  }
+}
+
 const getOverallRetentionData = async(req, res) => {
   try {
     // First, calculate the total number of employees
@@ -533,5 +549,6 @@ module.exports = {
   uploadScores,
   getRetention,
   getTrainingSuccessRate,
-  getOverallRetentionData
+  getOverallRetentionData,
+  getNoOfEmployees
 };

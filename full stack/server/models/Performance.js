@@ -24,7 +24,7 @@ const Performance = sequelize.define('Performance', {
         type: DataTypes.FLOAT,
         allowNull: false
     },
-    trainer_Feedback: {
+    trainer_feedback: {
         type: DataTypes.TEXT, // or DataTypes.STRING if you have a length constraint
         allowNull: true // Feedback can be null
     },

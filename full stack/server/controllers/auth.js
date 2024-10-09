@@ -1,10 +1,11 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const Employee = require('../models/Employee');
 
-const login = (req, res) => {
+const login = async (req, res) => {
     const { username, password, role } = req.body;
     if(role === 'admin'){
         if (username !== 'root' || password !== '123') {
-            return res.status(200).json({msg: 'Invalid credentials'});
+            return res.status(404).json({msg: 'Invalid credentials'});
         }
         const token = jwt.sign({ name: username }, process.env.JWT_SECRET, {
             expiresIn: '30d'
@@ -12,10 +13,17 @@ const login = (req, res) => {
         return res.status(200).json({ msg: 'success', token});
     }
     else {
-        if(username !== '1' || password !== '123') {
+        const emp = await Employee.findAll({
+            where: {
+                email: username
+            }
+        })
+        console.log(emp.password);
+        
+        if(emp.length === 0 || (emp.length > 0 && emp[0].password != password)) {
             return res.status(404).json({msg: 'Invalid credentials'});
         }
-        const token = jwt.sign({ id: username, role: "employee" }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: emp[0].id, role: "employee" }, process.env.JWT_SECRET, {
             expiresIn: '30d'
         });
         return res.status(200).json({ msg: 'success', token});

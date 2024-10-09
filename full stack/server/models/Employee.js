@@ -16,6 +16,18 @@ const Employee = sequelize.define('Employee', {
         allowNull: false,
         unique: true
     },
+    age: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    length_of_service: {
+        type: DataTypes.INTEGER,
+        allowNull: false,    
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     designation: {
         type: DataTypes.STRING,
         allowNull: false
