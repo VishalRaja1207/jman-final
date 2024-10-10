@@ -4,8 +4,8 @@
     left: 0;
     height: 100vh; /* Full viewport height */
     width: 250px; /* Set a fixed width */
-    background: linear-gradient(135deg, #19105B, #ff6196);
-    /* background-color: #19105B; */
+    /* background: linear-gradient(135deg, #19105B, #ff6196); */
+    background-color: #19105B;
     z-index: 1000; /* Ensure it's above other elements */
     padding-top: 10px;
 }

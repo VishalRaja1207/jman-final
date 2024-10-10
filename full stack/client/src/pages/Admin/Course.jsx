@@ -2,9 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Pagination } from "react-bootstrap";
 import "../../styles/sidebar.css";
-import { createTraining, deleteTraining, getTraining, updateTraining } from "../../services/services";
+import {
+  createTraining,
+  deleteTraining,
+  getTraining,
+  updateTraining,
+} from "../../services/services";
 import toast from "react-hot-toast";
-import "../../styles/page.css"
+import "../../styles/page.css";
 
 const Course = () => {
   const [tableData, setTableData] = useState([]);
@@ -19,6 +24,7 @@ const Course = () => {
   const [endDate, setEndDate] = useState("");
   const [updateId, setUpdateId] = useState("");
   const [deleteCard, setDeleteCard] = useState(false);
+  const [viewCard, setViewCard] = useState(false);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -40,10 +46,10 @@ const Course = () => {
       const data = { courseName, startDate, endDate };
       console.log(data);
       await createTraining(data);
-      toast.success("Course added")
-      setCourseName("")
-      setStartDate("")
-      setEndDate("")
+      toast.success("Course added");
+      setCourseName("");
+      setStartDate("");
+      setEndDate("");
       fetchTableData();
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -52,12 +58,22 @@ const Course = () => {
 
   const fetchTableData = async () => {
     try {
-      const response = await getTraining()
+      const response = await getTraining();
       const data = response.data;
       setTableData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const handleViewCard = async (e, data) => {
+    e.preventDefault();
+    const { id, name, start_date, end_date } = data;
+    setUpdateId(id);
+    setUpdateName(name);
+    setUpdateStart(start_date);
+    setUpdateEnd(end_date);
+    setViewCard(true);
   };
 
   const handleUpdateCard = async (e, data) => {
@@ -90,11 +106,11 @@ const Course = () => {
       setUpdateName("");
       setUpdateStart("");
       setUpdateEnd("");
-      toast.success("Updated Successfully")
+      toast.success("Updated Successfully");
       setUpdateCard(false);
       fetchTableData();
     } catch (error) {
-      toast.error("Error while updating")
+      toast.error("Error while updating");
       console.log(error);
     }
   };
@@ -103,13 +119,13 @@ const Course = () => {
     try {
       e.preventDefault();
       console.log(updateId);
-      
-      await deleteTraining(updateId)
+
+      await deleteTraining(updateId);
       setDeleteCard(false);
-      toast.success("Deleted Successfully")
+      toast.success("Deleted Successfully");
       fetchTableData();
     } catch (error) {
-      toast.error("Error while deleting")
+      toast.error("Error while deleting");
       console.log(error);
     }
   };
@@ -157,9 +173,7 @@ const Course = () => {
           </div>
 
           <div className="col-lg-3 mt-3">
-            <label htmlFor="submitButton">
-              create
-            </label>
+            <label htmlFor="submitButton">create</label>
             <button
               type="submit"
               className="btn btn-danger d-flex align-items-center justify-content-center w-50"
@@ -173,7 +187,10 @@ const Course = () => {
       <div className="row mt-5">
         <div className="col">
           <div className="card item-card custom-card">
-            <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}} >
+            <div
+              className="card-header"
+              style={{ backgroundColor: "#19105B", color: "#fff" }}
+            >
               <h6 style={{ textAlign: "center" }}>
                 <b>Training courses</b>
               </h6>
@@ -181,9 +198,10 @@ const Course = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th >Name</th>
+                  <th>Name</th>
                   <th>Start Date</th>
                   <th>End Date</th>
+                  <th>View</th>
                   <th>Edit</th>
                   <th>Delete </th>
                 </tr>
@@ -194,6 +212,12 @@ const Course = () => {
                     <td>{data.name}</td>
                     <td>{data.start_date}</td>
                     <td>{data.end_date}</td>
+                    <td onClick={(e) => handleViewCard(e, data)}>
+                      <i
+                        class="bi bi-eye-fill ms-2"
+                        style={{ cursor: "pointer", color: "#19105B" }}
+                      ></i>
+                    </td>
                     <td onClick={(e) => handleUpdateCard(e, data)}>
                       <i
                         class="bi bi-pencil-fill ms-1"
@@ -203,7 +227,10 @@ const Course = () => {
                     <td onClick={(e) => handleDeleteCard(e, data)}>
                       <i
                         className="bi bi-trash3-fill ms-3"
-                        style={{ cursor: "pointer", color: "rgb(255, 97, 150)" }}
+                        style={{
+                          cursor: "pointer",
+                          color: "rgb(255, 97, 150)",
+                        }}
                       ></i>
                     </td>
                   </tr>
@@ -334,6 +361,40 @@ const Course = () => {
                 >
                   No
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {viewCard && (
+        <div className="custom-popup-card-overlay">
+          <div className="card custom-popup-card">
+            <div className="card-header d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">Update Course</h5>
+              <i
+                className="bi bi-x-lg"
+                style={{ cursor: "pointer" }}
+                onClick={() => setViewCard(false)}
+              ></i>
+            </div>
+            <div className="card-body">
+              <div className="mb-3">
+                <label htmlFor="courseName" className="form-label">
+                  Course Name:
+                </label>
+                <div id="courseName">{updateName}</div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="startDate" className="form-label">
+                  Start Date:
+                </label>
+                <div id="startDate">{updateStart}</div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="endDate" className="form-label">
+                  End Date:
+                </label>
+                <div id="endDate">{updateEnd}</div>
               </div>
             </div>
           </div>

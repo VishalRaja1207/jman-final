@@ -91,68 +91,75 @@ const Feedback = () => {
     <div className="container">
       <h2 className="my-4">PERFORMANCE FEEDBACK</h2>
       <div className="row">
-        <div className="col">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>start_date</th>
-                <th>end_date</th>
-                <th>Result</th>
-                <th>Feedbacks</th>
-                <th>Add Your Feedback</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentRows.map((data) => (
-                <tr key={data.Training.id}>
-                  <td>{data.Training.name}</td>
-                  <td>{data.Training.start_date}</td>
-                  <td>{data.Training.end_date}</td>
-                  <td>{data.status}</td>
-                  <td>{data.trainer_feedback}</td>
-                  <td>
-                    <i
-                      className="fs-5 bi bi-plus-circle ms-5"
-                      style={{ cursor: "pointer", color: "#19105B"}}
-                      onClick={(e) => handleAddFeedback(e, data)}
-                    ></i>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="pagination-container">
-              <Pagination className="custom-pagination">
-                <Pagination.First
-                  onClick={() => paginate(1)}
-                  disabled={currentPage === 1}
-                />
-                <Pagination.Prev
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                />
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <Pagination.Item
-                    key={index + 1}
-                    onClick={() => paginate(index + 1)}
-                    active={index + 1 === currentPage}
-                  >
-                    {index + 1}
-                  </Pagination.Item>
-                ))}
-                <Pagination.Next
-                  onClick={() => paginate(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                />
-                <Pagination.Last
-                  onClick={() => paginate(totalPages)}
-                  disabled={currentPage === totalPages}
-                />
-              </Pagination>
+      <div className="card item-card custom-card">
+      <div className="card-header" style={{backgroundColor: "#19105B", color: "#fff"}}>
+              <h6 style={{ textAlign: "center" }}>
+                <b>Feedback</b>
+              </h6>
             </div>
-        </div>
+          <div className="col">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>start_date</th>
+                  <th>end_date</th>
+                  <th>Result</th>
+                  <th>Feedbacks</th>
+                  <th>Add Your Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentRows.map((data) => (
+                  <tr key={data.Training.id}>
+                    <td>{data.Training.name}</td>
+                    <td>{data.Training.start_date}</td>
+                    <td>{data.Training.end_date}</td>
+                    <td>{data.status}</td>
+                    <td>{data.trainer_feedback}</td>
+                    <td>
+                      <i
+                        className="fs-5 bi bi-plus-circle ms-5"
+                        style={{ cursor: "pointer", color: "#19105B"}}
+                        onClick={(e) => handleAddFeedback(e, data)}
+                      ></i>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="pagination-container">
+                <Pagination className="custom-pagination">
+                  <Pagination.First
+                    onClick={() => paginate(1)}
+                    disabled={currentPage === 1}
+                  />
+                  <Pagination.Prev
+                    onClick={() => paginate(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  />
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <Pagination.Item
+                      key={index + 1}
+                      onClick={() => paginate(index + 1)}
+                      active={index + 1 === currentPage}
+                    >
+                      {index + 1}
+                    </Pagination.Item>
+                  ))}
+                  <Pagination.Next
+                    onClick={() => paginate(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  />
+                  <Pagination.Last
+                    onClick={() => paginate(totalPages)}
+                    disabled={currentPage === totalPages}
+                  />
+                </Pagination>
+              </div>
+          </div>
+      </div>
         {addCard && trainId !== 0 && trainName !== '' && (
           <div className="custom-popup-card-overlay">
             <div className="card custom-popup-card">

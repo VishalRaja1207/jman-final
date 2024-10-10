@@ -91,6 +91,7 @@ const Login = () => {
                             checked={role === "admin"}
                             onChange={(e) => setRole(e.target.value)}
                             required
+                            style={{cursor: "pointer"}}
                           />
                           <label htmlFor="admin" className="form-check-label">Admin</label>
                         </div>
@@ -106,6 +107,7 @@ const Login = () => {
                             checked={role === "employee"}
                             onChange={(e) => setRole(e.target.value)}
                             required
+                            style={{cursor: "pointer"}}
                           />
                           <label htmlFor="employee" className="form-check-label">Employee</label>
                         </div>
