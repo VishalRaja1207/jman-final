@@ -12,7 +12,7 @@ export const getRetentionData = () => {
     return axiosInstance.get(`${url}/admin/retention/all`)
 }
 export const getEmployeeCount = () => {
-    return axiosInstance.get(`${url}/admin/employee`)
+    return axiosInstance.get(`${url}/admin/employees/no`)
 }
 
 //score
@@ -55,9 +55,13 @@ export const deleteTraining = (id) => {
     return axiosInstance.delete(`${url}/admin/training?id=${id}`)
 }
 
+export const getTrainerFeedback = (id) => {
+    return axiosInstance.get(`${url}/admin/training/cummulative?id=${id}`)
+}
+
 //employee
 export const getEmployeeCard = () => {
-    return axiosInstance.get(`${url}/employee`)
+    return axiosInstance.get(`${url}/employees`)
 }
 
 export const getEmployeePassData = () => {

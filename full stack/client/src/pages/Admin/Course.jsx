@@ -5,6 +5,7 @@ import "../../styles/sidebar.css";
 import {
   createTraining,
   deleteTraining,
+  getTrainerFeedback,
   getTraining,
   updateTraining,
 } from "../../services/services";
@@ -25,6 +26,7 @@ const Course = () => {
   const [updateId, setUpdateId] = useState("");
   const [deleteCard, setDeleteCard] = useState(false);
   const [viewCard, setViewCard] = useState(false);
+  const [feedbackScore, setFeedbackScore] = useState(0);
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -65,6 +67,16 @@ const Course = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const fetchFeedbackScore = async (id) => {
+    try {
+      const response = await getTrainerFeedback(id );
+      const data = response.data;
+      const score = data["average_feedback"]
+      setFeedbackScore(score)
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   const handleViewCard = async (e, data) => {
     e.preventDefault();
@@ -74,6 +86,7 @@ const Course = () => {
     setUpdateStart(start_date);
     setUpdateEnd(end_date);
     setViewCard(true);
+    fetchFeedbackScore(id);
   };
 
   const handleUpdateCard = async (e, data) => {
@@ -395,6 +408,12 @@ const Course = () => {
                   End Date:
                 </label>
                 <div id="endDate">{updateEnd}</div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="endDate" className="form-label">
+                  Feedback Score:
+                </label>
+                <div id="endDate">{feedbackScore}</div>
               </div>
             </div>
           </div>

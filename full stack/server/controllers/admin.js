@@ -173,12 +173,11 @@ const updateScore = async (req, res) => {
 //get employees
 const getEmployees = async (req, res) => {
   const { designation } = req.query;
+  const whereCondition = designation ? { designation: designation } : {};
   try {
     const employee = await Employee.findAll({
       attributes: ["id", "name"],
-      where: {
-        designation: designation,
-      },
+      where: whereCondition
     });
     if (employee.length === 0) {
       return res.status(200).json({ message: "No records found" });
@@ -532,6 +531,31 @@ const getTrainingSuccessRate = async (req, res) => {
   }
 };
 
+//get cummulative feedback score
+const getCummulativeFeedbackScore = async (req, res) => {
+  const { id } = req.query; // training_id is passed as query parameter
+  try {
+    const results = await Performance.findAll({
+      where: {
+        training_id: id
+      },
+      attributes: [
+        'training_id',
+        [Sequelize.fn("COALESCE", Sequelize.fn("AVG", Sequelize.col("employee_feedback")), 0), "average_feedback"] // Use COALESCE to replace null with 0
+      ],
+      group: ["training_id"]
+    });
+
+    return res.status(200).json(results[0]);
+  } catch (error) {
+    console.error(
+      "Error fetching cumulative training feedback score:",
+      error
+    );
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   getScores,
   createTraining,
@@ -550,5 +574,6 @@ module.exports = {
   getRetention,
   getTrainingSuccessRate,
   getOverallRetentionData,
-  getNoOfEmployees
+  getNoOfEmployees,
+  getCummulativeFeedbackScore
 };

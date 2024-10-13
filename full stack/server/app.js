@@ -20,7 +20,7 @@ app.use(cors());
 //routes
 // app.options("*",cors());
 app.use('/api/v1/auth', auth);
-app.use('/api/v1/admin', authMiddleware, admin);
+app.use('/api/v1/admin', admin);
 app.use('/api/v1/employee', employeeMiddleware, employee)
 
 const port = process.env.PORT || 5000;
