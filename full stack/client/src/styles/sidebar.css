@@ -53,3 +53,13 @@
 .card-popup-card-title .pi-times {
     cursor: pointer;
 }
+
+.li-style {
+    transition: all 0.2;
+}
+
+.li-style:hover {
+    text-decoration: underline;
+    text-decoration-color: #ff6196;
+    text-underline-offset: 8px;
+}

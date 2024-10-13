@@ -19,19 +19,19 @@ const Sidebar = () => {
             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 mt-4 align-items-center align-items-sm-start" id="menu">
                 <li>
                     <a href="/dashboard" class="nav-link nav-link-color px-0 align-middle">
-                    <i class="fs-5 bi bi-clipboard-pulse"></i> <span class=" fs-6 ms-1 d-none d-sm-inline">Dashboard</span></a>
+                    <i class="fs-5 bi bi-clipboard-pulse"></i> <span class=" fs-6 ms-1 d-none d-sm-inline li-style">Dashboard</span></a>
                 </li>
                 <li>
                     <a href="/scores" class="nav-link px-0 align-middle">
-                    <i class="fs-5 bi bi-file-earmark-spreadsheet"></i> <span class="fs-6 ms-1 d-none d-sm-inline">Scores</span></a>
+                    <i class="fs-5 bi bi-file-earmark-spreadsheet"></i> <span class="fs-6 ms-1 d-none d-sm-inline li-style">Scores</span></a>
                 </li>
                 <li>
                     <a href="/performance" class="nav-link px-0 align-middle">
-                        <i class="fs-5 bi bi-speedometer"></i> <span class="fs-6 ms-1 d-none d-sm-inline">Performance</span></a>
+                        <i class="fs-5 bi bi-speedometer"></i> <span class="fs-6 ms-1 d-none d-sm-inline li-style">Performance</span></a>
                 </li>
                 <li>
                     <a href="/add/course" class="nav-link px-0 align-middle">
-                       <i class="fs-5 bi bi-book"></i> <span class="fs-6 ms-1 d-none d-sm-inline">Add Course</span></a>
+                       <i class="fs-5 bi bi-book"></i> <span class="fs-6 ms-1 d-none d-sm-inline li-style">Add Course</span></a>
                 </li>
             </ul>
             <hr />
