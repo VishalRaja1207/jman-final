@@ -55,7 +55,7 @@ const Performance = () => {
       const response = await getEmplyeesByDesignation(selectedDesignation);
       const data = response.data;
       setEmployees(data);
-      setSelectedEmployee(data[0]?.id || null); // Set the first employee as default or null if no employees
+      setSelectedEmployee(data[0]?.id || "N/A"); // Set the first employee as default or null if no employees
     } catch (error) {
       console.error("Error fetching employees:", error);
     }

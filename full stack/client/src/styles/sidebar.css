@@ -63,3 +63,7 @@
     text-decoration-color: #ff6196;
     text-underline-offset: 8px;
 }
+
+.active-tab {
+    color: #ff6196 !important;
+}

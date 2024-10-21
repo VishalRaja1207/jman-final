@@ -84,7 +84,7 @@ const Dashboard = () => {
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mt-4">
         <div className="col text-end">
           <div className="card item-card custom-card w-auto">
             <div

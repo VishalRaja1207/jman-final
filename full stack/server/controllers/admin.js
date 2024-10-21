@@ -6,20 +6,42 @@ const xlsx = require("xlsx");
 
 //create training 
 const createTraining = async (req, res) => {
-  const {courseName, startDate, endDate} = req.body
+  const { courseName, startDate, endDate } = req.body;
+ 
   try {
+    // Check if the course with the same name (case-insensitive) already exists
+    const existingTraining = await Training.findOne({
+      where: {
+        name: courseName.trim(),
+      },
+    });
+ 
+    if (existingTraining) {
+      return res.status(400).json({ message: "Course name already exists" });
+    }
+ 
+    // Validate that endDate is after startDate
+    if (new Date(endDate) <= new Date(startDate)) {
+      return res
+        .status(400)
+        .json({ message: "End date must be after start date" });
+    }
+ 
+    // Create the new training if no duplicates and dates are valid
     const newTraining = await Training.create({
-      name: courseName,
+      name: courseName.trim(),
       start_date: startDate,
       end_date: endDate,
     });
-
-    res.status(201).json({ message: 'Training created successfully', data: newTraining });
+ 
+    res
+      .status(201)
+      .json({ message: "Training created successfully", data: newTraining });
   } catch (error) {
-    console.error('Error creating training:', error);
-    res.status(500).json({ message: 'Server Error' });
+    console.error("Error creating training:", error);
+    res.status(500).json({ message: "Server Error" });
   }
-}
+};
 
 //get all training
 const getTraining = async (req, res) => {

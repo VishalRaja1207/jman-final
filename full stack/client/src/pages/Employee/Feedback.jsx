@@ -24,6 +24,8 @@ const Feedback = () => {
     try {
       const response = await getFeedbackTableData();
       const data = response.data;
+      console.log(data);
+      
       setTableData(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -116,7 +118,7 @@ const Feedback = () => {
                     <td>{data.Training.start_date}</td>
                     <td>{data.Training.end_date}</td>
                     <td>{data.status}</td>
-                    <td>{data.trainer_feedback}</td>
+                    <td>{data.trainer_feedback ? data.trainer_feedback : "Feedback dosen't provided!!!"}</td>
                     <td>
                       <i
                         className="fs-5 bi bi-plus-circle ms-5"
@@ -182,7 +184,8 @@ const Feedback = () => {
                 </div>
                 <br></br>
                 <div className="form-group">
-                  <label for="exampleFormControlInput1">Feedback 1 name</label>
+                  <label for="exampleFormControlInput1">How would you rate the quality of the training delivery
+                  </label>
                   <select
                     className="form-select"
                     id="designationDropdown"
@@ -200,7 +203,8 @@ const Feedback = () => {
                 </div>
                 <br></br>
                 <div className="form-group">
-                  <label for="exampleFormControlInput1">Feedback 2 name</label>
+                  <label for="exampleFormControlInput1">How would you rate the training content
+                  </label>
                   <select
                     className="form-select"
                     id="designationDropdown"
@@ -218,7 +222,7 @@ const Feedback = () => {
                 </div>
                 <br></br>
                 <div className="form-group">
-                  <label for="exampleFormControlInput1">Feedback 3 name</label>
+                  <label for="exampleFormControlInput1">How would you rate the relevance of the assessments to the topics covered?</label>
                   <select
                     className="form-select"
                     id="designationDropdown"
@@ -236,7 +240,7 @@ const Feedback = () => {
                 </div>
                 <br></br>
                 <div className="form-group">
-                  <label for="exampleFormControlInput1">Feedback 4 name</label>
+                  <label for="exampleFormControlInput1">How would you rate the Q/A session?</label>
                   <select
                     className="form-select"
                     id="designationDropdown"

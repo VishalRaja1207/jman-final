@@ -61,7 +61,7 @@ export const getTrainerFeedback = (id) => {
 
 //employee
 export const getEmployeeCard = () => {
-    return axiosInstance.get(`${url}/employees`)
+    return axiosInstance.get(`${url}/employee`)
 }
 
 export const getEmployeePassData = () => {

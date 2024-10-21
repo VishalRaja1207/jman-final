@@ -54,6 +54,9 @@ const Course = () => {
       setEndDate("");
       fetchTableData();
     } catch (error) {
+      if(error.status === 400) {        
+        toast.error(error.response.data.message)
+      }
       console.error("Error fetching data:", error);
     }
   };
