@@ -69,7 +69,6 @@ const getTraining = async (req, res) => {
 const updateTraining = async (req, res) => {
   const { id } = req.query; // Get the training id from URL parameters
   const { name, start_date ,end_date } = req.body; // Fields to update
-  console.log(req.body);
   
   try {
     const training = await Training.findByPk(id); // Find the training by id
@@ -156,7 +155,6 @@ const getScores = async (req, res) => {
 const deleteScore = async (req, res) => {
   const { emp_id, training_id } = req.query;
   try {
-    console.log(emp_id, training_id);
 
     // Find the performance record by emp_id and training_id
     const performance = await Performance.findOne({
@@ -396,7 +394,6 @@ const uploadScores = async (req, res) => {
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
     const data = xlsx.utils.sheet_to_json(sheet);
-    console.log(data);
 
     // Proceed with upserting logic
     for (const row of data) {
@@ -489,8 +486,6 @@ const getOverallRetentionData = async(req, res) => {
 
     // Calculate percentage
     const percentageOfPassedEmployees = (passedCount * 100) / totalEmployees;
-
-    console.log('Percentage of employees passed:', percentageOfPassedEmployees);
     return res.status(200).json({data: percentageOfPassedEmployees});
   } catch (error) {
     console.error("Error fetching retention data:", error);

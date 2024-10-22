@@ -38,7 +38,7 @@ const Barchart = ({data}) => {
   // Data for the chart
   const series = [
     {
-      name: 'Percentage Passed', // Dataset name
+      name: 'Value', // Dataset name
       data: pass_percentage, // Data values
     },
   ];
